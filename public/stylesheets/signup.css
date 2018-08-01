@@ -1,6 +1,8 @@
 body {
-/* Location of the image */
-	background-image: url(../images/indexBackground.jpg);
+	height: 100%;
+	width: 100%;
+	/* Location of the image */
+	background-image: url(../images/signupBackground2.jpg);
 
 	/* Background image is centered vertically and horizontally at all times */
 	background-position: center center;
@@ -21,17 +23,19 @@ body {
 	background-color: #464646;
 }
 
+#wrapper {
+	height: 100%;
+}
+
 .card {
-	background: rgba(0,0,0,0.4);
+	background: rgba(0,0,0,0.5);
 	color: white;
 	text-align: center;
 	margin: auto;
-	margin-top: 20%;
-	margin-bottom: 10%;
-	width: 65%;
-	max-width: 375px;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	width: 60%;
 }
-
 
 .btn {
 	border-radius: 30px;

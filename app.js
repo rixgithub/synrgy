@@ -5,9 +5,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
 var session = require('express-session');
+var flash = require('connect-flash');
+// Requiring our models for syncing
+var db = require('./models');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+//load passport strategies
+require('./config/passport/passport.js')(passport, db.user);
+var authRouter = require('./routes/auth');
+var apiRouter = require('./routes/api');
 
 var app = express();
 
@@ -24,10 +29,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'keyboard cat',resave: true, saveUninitialized:true})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
+app.use(flash());
 
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', authRouter);
+app.use('/users', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

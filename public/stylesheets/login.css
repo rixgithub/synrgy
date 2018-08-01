@@ -1,6 +1,6 @@
 body {
 /* Location of the image */
-	background-image: url(../images/indexBackground.jpg);
+	background-image: url(../images/loginBackground.jpg);
 
 	/* Background image is centered vertically and horizontally at all times */
 	background-position: center center;
@@ -22,16 +22,15 @@ body {
 }
 
 .card {
-	background: rgba(0,0,0,0.4);
+	background: rgba(0,0,0,0.5);
 	color: white;
 	text-align: center;
 	margin: auto;
-	margin-top: 20%;
+	margin-top: 10%;
 	margin-bottom: 10%;
 	width: 65%;
 	max-width: 375px;
 }
-
 
 .btn {
 	border-radius: 30px;

@@ -1,7 +1,7 @@
 //load bcrypt
   var bCrypt = require('bcrypt-nodejs');
 
-  module.exports = function(passport,user){
+  module.exports = function(passport,user) {
 
 	  var User = user;
 	  var LocalStrategy = require('passport-local').Strategy;
@@ -25,10 +25,11 @@
 
 	  });
 
-
+	  // ********* LOCAL SIGNUP *************
 	  passport.use('local-signup', new LocalStrategy(
 
-	    {           
+	    {    
+	    // by default, local strategy uses username and password, we will override with email       
 	      usernameField : 'email',
 	      passwordField : 'password',
 	      passReqToCallback : true // allows us to pass back the entire request to the callback
@@ -43,16 +44,18 @@
 	      	User.findOne({where: {email:email}}).then(function(user){
 
 				if (user) {
-					return done(null, false, {message: 'That email is already taken'} );
-				}
+					console.log(user);
+					return done(null, false, req.flash('message', 'That email is already taken.'));
+				} 
 
-				else {
+				else if (req.body.password === req.body.passwordConfirm) {
 	        		var userPassword = generateHash(password);
 	        		var data =
 	        			{ 	email: email,
 					        password: userPassword,
 					        firstName: req.body.firstName,
 					        lastName: req.body.lastName,
+					        userName: req.body.userName,
 					        address: req.body.address,
 					        address2: req.body.address2,
 					        city: req.body.city,
@@ -71,13 +74,17 @@
 	        		});
 	      		}
 
+      			else if (req.body.password !== req.body.passwordConfirm) {
+      				return done(null,false, req.flash('message', 'Passwords do not match. Try Again.'));
+      			}
+
 	    	}); 
 
 	  	}
 
 	  ));
 	    
-	  //LOCAL LOGIN
+	  // ******* LOCAL LOGIN *************
 	  passport.use('local-login', new LocalStrategy(
 	    
 	  {
@@ -99,11 +106,11 @@
 	    User.findOne({ where : { email: email}}).then(function (user) {
 
 	      if (!user) {
-	        return done(null, false, {message: 'Email does not exist' });
+	        return done(null, false, req.flash('message', 'Invalid email'));
 	      }
 
 	      if (!isValidPassword(user.password,password)) {
-	        return done(null, false, {message: 'Incorrect password' });
+	        return done(null, false, req.flash('message', 'Incorrect password'));
 	      }
 
 	      var userinfo = user.get();
